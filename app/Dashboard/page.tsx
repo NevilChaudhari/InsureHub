@@ -1,18 +1,18 @@
+import { Users, Settings } from "lucide-react";
 import { useState } from "react";
-import Agents from "./Agents/page";
-import AdminDashboard from "./Dashboard/page";
-import Dealers from "./Dealers/page";
-import Customers from "./Customers/page";
-import InsuranceProducts from "./InsuranceProducts/page";
-import AddOns from "./AddOns/page";
-import Claims from "./Claims/page";
-import Contracts from "./Contracts/page";
-import RateSheets from "./RateSheets/page";
-import ReportsAnalitics from "./ReportsAnalytics/page";
-import Users from "./Users/page";
-import RolesPermissions from "./RolesPermissions/page";
-import Settings from "./Settings/page";
-import AuditLogs from "./AuditLogs/page";
+import AddOns from "./addons/page";
+import Agents from "./agents/page";
+import AuditLogs from "./auditLogs/page";
+import Claims from "./claims/page";
+import Contracts from "./contracts/page";
+import Customers from "./customers/page";
+import AdminDashboard from "./dashboard/page";
+import Dealers from "./dealers/page";
+import InsuranceProducts from "./insuranceProducts/page";
+import RateSheets from "./rateSheets/page";
+import ReportsAnalitics from "./reportsAnalytics/page";
+import RolesPermissions from "./roles/page";
+
 
 type pageId = "dashboard" | "agents" | "dealers" | "customers" | "insuranceproducts" | "addons" | "ratesheets" | "contracts" | "claims" | "reports" | "users" | "roles" | "settings" | "auditlogs";
 

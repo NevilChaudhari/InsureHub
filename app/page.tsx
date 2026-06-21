@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
-import MainLayout from "./(Admin)/page";
+import MainLayout from "./Dashboard/page";
 
 export default function Home() {
 
