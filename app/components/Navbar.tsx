@@ -4,15 +4,16 @@ type params = {
     showSearchBar: boolean,
     name: string
     placeholderText: string
+    colapseSidebar: () => void
 }
-export default function NavbarUI({showSearchBar, name, placeholderText}: params) {
+export default function NavbarUI({ showSearchBar, name, placeholderText, colapseSidebar }: params) {
     return (
         <div className="flex flex-col">
             <div className="flex h-20 items-center place-content-between px-5">
 
                 {/* Name and Menu */}
                 <div className="flex gap-5">
-                    <div className="hover:bg-[#E5E7EB] cursor-pointer rounded-full w-10 h-10 items-center justify-center flex"><IconMenu2Filled /></div>
+                    <div onClick={colapseSidebar} className="hover:bg-[#E5E7EB] cursor-pointer rounded-full w-10 h-10 items-center justify-center flex"><IconMenu2Filled /></div>
                     <div className="flex font-semibold text-2xl items-center justify-center">
                         {name}
                     </div>

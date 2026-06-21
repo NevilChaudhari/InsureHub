@@ -12,6 +12,7 @@ import InsuranceProducts from "./insuranceProducts/page";
 import RateSheets from "./rateSheets/page";
 import ReportsAnalitics from "./reportsAnalytics/page";
 import RolesPermissions from "./roles/page";
+import NavbarUI from "../components/Navbar";
 
 
 type pageId = "dashboard" | "agents" | "dealers" | "customers" | "insuranceproducts" | "addons" | "ratesheets" | "contracts" | "claims" | "reports" | "users" | "roles" | "settings" | "auditlogs";
@@ -147,7 +148,10 @@ export default function MainLayout() {
                     </div>
                 </div>
             </div>
-            <div className='px-5 bg-[#F8FAFC] w-full transition-all duration-100 text-black'>{returnCurrentPage()}</div>
+            <div className='px-5 bg-[#F8FAFC] w-full transition-all duration-100 text-black gap-10 flex flex-col'>
+                <NavbarUI name={currentPage.toUpperCase()} placeholderText={currentPage} showSearchBar={false} colapseSidebar={() => { setCollapse(!collapse) }} />
+                {returnCurrentPage()}
+            </div>
         </div>
     );
 }
