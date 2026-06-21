@@ -14,7 +14,7 @@ import RolesPermissions from "./RolesPermissions/page";
 import Settings from "./Settings/page";
 import AuditLogs from "./AuditLogs/page";
 
-type pageId = "dashboard" | "agents" | "dealers" | "customers" | "insuranceproducts" | "addons" | "ratesheets" | "contracts" | "claims" | "reports&analytics" | "users" | "roles&permissions" | "settings" | "auditlogs";
+type pageId = "dashboard" | "agents" | "dealers" | "customers" | "insuranceproducts" | "addons" | "ratesheets" | "contracts" | "claims" | "reports" | "users" | "roles" | "settings" | "auditlogs";
 
 export default function MainLayout() {
     const [currentPage, setCurrentPage] = useState<pageId>("dashboard");
@@ -44,11 +44,11 @@ export default function MainLayout() {
                 return <Contracts />
             case "claims":
                 return <Claims />;
-            case "reports&analytics":
+            case "reports":
                 return <ReportsAnalitics />;
             case "users":
                 return <Users />;
-            case "roles&permissions":
+            case "roles":
                 return <RolesPermissions />;
             case "settings":
                 return <Settings />;
@@ -61,103 +61,93 @@ export default function MainLayout() {
 
     return (
         <div className="flex">
-            <div className={`left-0 top-0 h-screen flex flex-col transition-all duration-100 z-40 bg-[#021B3A] border-right border-1px border-black justify-center
-                ${collapse ? "w-[3vw] items-center" : "w-[15vw]"}
-            `}>
-                <div className="flex items-center gap-2.5 px-4 py-4 border-b border-slate-700/60">
-                    <div className="shrink-0 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                        O
-                    </div>
+            <div className={`left-0 top-0 h-screen flex flex-col transition-all duration-100 z-40 bg-[#021B3A] border-right border-1px border-black justify-center ${collapse ? "w-[3vw] items-center" : "w-[15vw]"} px-2`}>
+                <div className="flex items-center gap-2.5 py-4">
+                    <div className="shrink-0 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">O</div>
                     {!collapse && (<div>
-                        <div className="text-white font-bold text-base leading-tight">
-                            InsureHub
-                        </div>
-                        <div className="text-slate-400 text-[10px] leading-tight">
-                            Insurance Management System
-                        </div>
+                        <div className="text-white font-bold text-base leading-tight"> InsureHub </div>
+                        <div className="text-slate-400 text-[10px] leading-tight"> Insurance Management System </div>
                     </div>)}
                 </div>
+                <div className={`border-t border-slate-700/50 w-full`}></div>
 
-                <div className="flex-1 overflow-x-hidden overflow-y-auto py-4 px-2 space-y-0.5">
-                    <div onClick={() => { changeCurrentPage("dashboard"); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer bg-blue-600 text-white" >
-                        <span className="shrink-0 text-white">D</span>
+                <div className="flex-1 overflow-x-hidden overflow-y-auto py-4 space-y-0.5 text-white">
+                    <div onClick={() => { changeCurrentPage("dashboard"); }} className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer ${currentPage === 'dashboard' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} text-white`} >
+                        <span>D</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Dashboard</span>)}
                     </div>
-                    <div className={` ${collapse ? "border-t border-slate-700/50 my-3" : "pt-4 pb-1 px-2"} `}>
-                        {!collapse && (<span className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest">Management</span>)}
-                    </div>
-                    <div onClick={() => { changeCurrentPage("agents"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300" >
-                        <span className="shrink-0 text-slate-400">A</span>
+
+                    {!collapse && (<div className="flex text-xs text-[#CBD5E1]/50 font-semibold pt-5 px-2">MANAGEMENT</div>)}
+                    {collapse && (<div className={`border-t border-slate-700/50 w-full`}></div>)}
+
+                    <div onClick={() => { changeCurrentPage("agents"); }} className={`${currentPage === 'agents' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>A</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Agent</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("dealers"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300" >
-                        <span className="shrink-0 text-slate-400">D</span>
-                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Dealers</span>)}
-                    </div>
-                    <div onClick={() => { changeCurrentPage("customers"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300" >
-                        <span className="shrink-0 text-slate-400">C</span>
+                    <div onClick={() => { changeCurrentPage("customers"); }} className={`${currentPage === 'customers' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>C</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Customers</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("insuranceproducts"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300" >
-                        <span className="shrink-0 text-slate-400">I</span>
+                    <div onClick={() => { changeCurrentPage("insuranceproducts"); }} className={`${currentPage === 'insuranceproducts' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>I</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Insurance Products</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("addons"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300" >
-                        <span className="shrink-0 text-slate-400">A</span>
-                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Add-ons</span>)}
+                    <div onClick={() => { changeCurrentPage("addons"); }} className={`${currentPage === 'addons' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>A</span>
+                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Addons</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("ratesheets"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300" >
-                        <span className="shrink-0 text-slate-400">R</span>
+                    <div onClick={() => { changeCurrentPage("ratesheets"); }} className={`${currentPage === 'ratesheets' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>R</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Rate Sheets</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("contracts"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300">
-                        <span className="shrink-0 text-slate-400">C</span>
+                    <div onClick={() => { changeCurrentPage("contracts"); }} className={`${currentPage === 'contracts' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>C</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Contracts</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("claims"); }} className="flex items-center gap-3 px-4 py-2.5 w-full rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-700/50 hover:text-white text-slate-300" >
-                        <span className="shrink-0 text-slate-400">C</span>
+                    <div onClick={() => { changeCurrentPage("claims"); }} className={`${currentPage === 'claims' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>C</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Claims</span>)}
                     </div>
-                    <div className={` ${collapse ? "border-t border-slate-700/50 my-3" : "pt-4 pb-1 px-2"} `}>
-                        {!collapse && (<span className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest"> Reports </span>)}
+
+                    {!collapse && (<div className="flex text-xs text-[#CBD5E1]/50 font-semibold pt-5 px-2">REPORTS</div>)}
+                    {collapse && (<div className={`border-t border-slate-700/50 w-full`}></div>)}
+
+                    <div onClick={() => { changeCurrentPage("reports"); }} className={`${currentPage === 'reports' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>R</span>
+                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Reports & Analytics</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("reports&analytics"); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
-                        <span className="shrink-0 text-slate-400">R</span>
-                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Reports & Analysics</span>)}
-                    </div>
-                    <div className={` ${collapse ? "border-t border-slate-700/50 my-3" : "pt-4 pb-1 px-2"} `}>
-                        {!collapse && (<span className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest"> System </span>)}
-                    </div>
-                    <div onClick={() => { changeCurrentPage("users"); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
-                        <span className="shrink-0 text-slate-400">U</span>
+
+                    {!collapse && (<div className="flex text-xs text-[#CBD5E1]/50 font-semibold pt-5 px-2">SYSTEMS</div>)}
+                    {collapse && (<div className={`border-t border-slate-700/50 w-full`}></div>)}
+
+                    <div onClick={() => { changeCurrentPage("users"); }} className={`${currentPage === 'users' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>U</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Users</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("roles&permissions"); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
-                        <span className="shrink-0 text-slate-400">R</span>
+                    <div onClick={() => { changeCurrentPage("roles"); }} className={`${currentPage === 'roles' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>R</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Roles & Permissions</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("settings"); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
-                        <span className="shrink-0 text-slate-400">S</span>
+                    <div onClick={() => { changeCurrentPage("settings"); }} className={`${currentPage === 'settings' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>S</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Settings</span>)}
                     </div>
-                    <div onClick={() => { changeCurrentPage("auditlogs"); }}
-                        className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
-                        <span className="shrink-0 text-slate-400">A</span>
+                    <div onClick={() => { changeCurrentPage("auditlogs"); }} className={`${currentPage === 'auditlogs' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
+                        <span>A</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Audit Logs</span>)}
                     </div>
                 </div>
 
                 {/* Colapse Button */}
-                <div className="border-t border-slate-700/60 p-3">
-                    <div onClick={() => { setCollapse(!collapse); }}
-                        className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
+                <div className={`border-t border-slate-700/50 w-full`}></div>
+                <div className="p-3">
+                    <div onClick={() => { setCollapse(!collapse); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
                         <span className="shrink-0 text-slate-400">{'<'}</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Colapse Menu</span>)}
                     </div>
                 </div>
             </div>
-            <div className={`w-full top-0 border border-white transition-all duration-100 
-                `}>{returnCurrentPage()}</div>
+            <div className='px-5 bg-[#F8FAFC] w-full transition-all duration-100 text-black'>{returnCurrentPage()}</div>
         </div>
     );
 }
