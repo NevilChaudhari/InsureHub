@@ -74,7 +74,7 @@ export default function Users() {
             {/* Left Area */}
             <div className="flex flex-1 bg-red-200">
                 <div className="flex w-full h-full">
-                    <img src="/Auth-BG.png" alt="Auth-Background" className="w-full h-full object-cover -scale-x-100" />
+                    <img src="/Auth-BG.png" alt="Auth-Background" className="w-full h-full object-cover" />
                 </div>
             </div>
             {/* Right Area */}

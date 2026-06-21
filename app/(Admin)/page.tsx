@@ -23,13 +23,13 @@ export default function MainLayout() {
     }
 
     return (
-        <div className="flex gap-20">
-            <div className="flex flex-col gap-2">
-                <div className="">Navbar</div>
-                <div onClick={() => { changeCurrentPage('dashboard') }} className="border border-white">Dashboard</div>
-                <div onClick={() => { changeCurrentPage('agents') }} className="border border-white">Agents</div>
+        <div className="flex w-full min-h-screen bg-[#F8FAFC] text-black">
+            <div className="flex flex-col gap-2 min-w-[20vw] bg-[#021B3A] border-r border-[#12305D] text-white">
+                <div className="">Sidebar</div>
+                <div onClick={() => { changeCurrentPage('dashboard') }} className="border">Dashboard</div>
+                <div onClick={() => { changeCurrentPage('agents') }} className="border">Agents</div>
             </div>
-            <div className="border border-white">{returnCurrentPage()}</div>
+            <div className="px-5 w-full">{returnCurrentPage()}</div>
         </div>
     )
 }
