@@ -1,10 +1,23 @@
 import { IconUserFilled, IconPlusFilled, IconDotsFilled } from "@tabler/icons-react"
+import { format } from "date-fns";
+
+interface Agent {
+    id: number
+    name: string
+    code: string
+    email: string
+    phone: number
+    status: string
+    dealers: number
+    joinedOn: string
+}
 
 type Props = {
     addAgent: () => void
+    agents: Agent[]
 }
 
-export default function AgentsListUI({addAgent}: Props) {
+export default function AgentsListUI({ addAgent, agents }: Props) {
     return (
         <div className="flex flex-col flex-1 gap-10">
 
@@ -65,18 +78,31 @@ export default function AgentsListUI({addAgent}: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-50 font-medium text-gray-800 hover:bg-gray-50/50 transition-colors items-center">
-                                <td className="px-5 py-3">Agent Name</td>
-                                <td className="px-5 py-3">AGT-001</td>
-                                <td className="px-5 py-3">agentemail@gmail.com</td>
-                                <td className="px-5 py-3">1234567890</td>
-                                <td className="px-5 py-3">Active</td>
-                                <td className="px-5 py-3">99</td>
-                                <td className="px-5 py-3">Jan 10, 2024</td>
-                                <td className="px-5 py-3">
-                                    <div className="cursor-pointer hover:bg-[#F1F5F9] w-10 h-8 border border-[#CBD5E1] rounded-md flex items-center justify-center"><IconDotsFilled /></div>
-                                </td>
-                            </tr>
+                            {agents.map((agent) => {
+                                return (
+                                    <tr key={agent.id} className="border-b border-gray-50 font-medium text-gray-800 hover:bg-gray-50/50 transition-colors items-center">
+                                        <td className="px-5 py-3">{agent.name}</td>
+                                        <td className="px-5 py-3">{agent.code}</td>
+                                        <td className="px-5 py-3">{agent.email}</td>
+                                        <td className="px-5 py-3">{agent.phone}</td>
+                                        <td className="px-5 py-3">
+                                            {agent.status === 'Inactive'
+                                                ? (<div className="flex w-17 h-7 items-center justify-center rounded-md bg-[#FEE2E2] text-[#DC2626]">
+                                                    {agent.status}
+                                                </div>)
+                                                : (<div className="flex w-17 h-7 items-center justify-center rounded-md bg-[#DCFCE7] text-[#16A34A]">
+                                                    {agent.status}
+                                                </div>)
+                                            }
+                                        </td>
+                                        <td className="px-5 py-3">{agent.dealers}</td>
+                                        <td className="px-5 py-3">{format(new Date(agent.joinedOn), "MMM d, yyyy")}</td>
+                                        <td className="px-5 py-3">
+                                            <div className="cursor-pointer hover:bg-[#F1F5F9] w-10 h-8 border border-[#CBD5E1] rounded-md flex items-center justify-center"><IconDotsFilled /></div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -84,7 +110,7 @@ export default function AgentsListUI({addAgent}: Props) {
                 {/* Pagination */}
                 <div className="flex place-content-between">
                     <div className="px-5 py-3 text-sm flex items-center justify-center">
-                        Showing 1 to 10 out of 999
+                        {agents.length > 10 ? `Showing 1 to 10 out of ${agents.length}` : `Showing ${agents.length} out of ${agents.length}`}
                     </div>
 
                     <div className="px-5 py-3 text-sm flex gap-2">

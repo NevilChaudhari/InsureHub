@@ -27,6 +27,8 @@ export async function POST(req: Request) {
             .single();
 
         if (error) {
+            console.log(error.message);
+            
             return NextResponse.json(
                 { error: error.message },
                 { status: 400 }
