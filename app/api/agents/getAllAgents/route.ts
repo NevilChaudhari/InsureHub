@@ -8,7 +8,7 @@ export async function GET(req: Request) {
         const { data, error } = await supabase
             .from("agents")
             .select('*')
-            .order('id', { ascending: false })
+            .order('id', { ascending: true })
 
         if (error) {
             return NextResponse.json(

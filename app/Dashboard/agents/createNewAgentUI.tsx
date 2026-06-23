@@ -76,12 +76,12 @@ export default function CreateNewAgentUI({ back, createAgent }: Props) {
                             {/* Number */}
                             <div>
                                 <div className="flex gap-2">
-                                    <label className="text-md text-[#021B3A]">Email</label>
+                                    <label className="text-md text-[#021B3A]">Phone</label>
                                     <label className="text-md text-[#DC2626]">*</label>
                                 </div>
                                 <div className="flex items-center justify-center border border-[#94A3B8] rounded-sm h-12 px-2 gap-2">
                                     <IconPhone stroke={2} className="text-[#94A3B8]" size={28} />
-                                    <input value={phone!} onChange={(e) => { setPhone(Number(e.target.value)) }} type="number" name="Email" id="email" placeholder="1234567890" className="w-full h-full focus:outline-none focus:ring-0" />
+                                    <input value={phone!} onChange={(e) => { setPhone(Number(e.target.value)) }} maxLength={10} type="tel" name="Email" id="email" placeholder="1234567890" className="w-full h-full focus:outline-none focus:ring-0" />
                                 </div>
                             </div>
                         </div>

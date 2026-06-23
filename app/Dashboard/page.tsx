@@ -13,6 +13,7 @@ import RateSheets from "./rateSheets/page";
 import ReportsAnalitics from "./reportsAnalytics/page";
 import RolesPermissions from "./roles/page";
 import NavbarUI from "../components/Navbar";
+import { IconLayoutSidebarLeftCollapseFilled, IconLayoutSidebarLeftExpandFilled } from "@tabler/icons-react";
 
 
 type pageId = "dashboard" | "agents" | "dealers" | "customers" | "insuranceproducts" | "addons" | "ratesheets" | "contracts" | "claims" | "reports" | "users" | "roles" | "settings" | "auditlogs";
@@ -143,12 +144,13 @@ export default function MainLayout() {
                 <div className={`border-t border-slate-700/50 w-full`}></div>
                 <div className="p-3">
                     <div onClick={() => { setCollapse(!collapse); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
-                        <span className="shrink-0 text-slate-400">{'<'}</span>
+                        {!collapse && (<span className="shrink-0 text-slate-400"><IconLayoutSidebarLeftCollapseFilled /></span>)}
+                        {collapse && (<span className="shrink-0 text-slate-400"><IconLayoutSidebarLeftExpandFilled /></span>)}
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Colapse Menu</span>)}
                     </div>
                 </div>
             </div>
-            <div className='px-5 bg-[#F8FAFC] w-full transition-all duration-100 text-black gap-10 flex flex-col'>
+            <div className='px-5 bg-[#F8FAFC] w-full h-screen transition-all duration-100 text-black gap-10 flex flex-col overflow-auto'>
                 <NavbarUI name={currentPage.toUpperCase()} placeholderText={currentPage} showSearchBar={false} colapseSidebar={() => { setCollapse(!collapse) }} />
                 {returnCurrentPage()}
             </div>

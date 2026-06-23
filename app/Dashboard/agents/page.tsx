@@ -23,7 +23,7 @@ export default function Agents() {
     }
 
     const getAgents = async () => {
-        const res = await fetch('/api/agents/getAgents')
+        const res = await fetch('/api/agents/getAllAgents')
         const data = await res.json()
         setAgents(data)
     }
@@ -31,7 +31,7 @@ export default function Agents() {
 
     const createAgent = async (name: string, email: string, phone: number) => {
 
-        if (!name || !email || !phone) {
+        if (!name || !email || !phone || phone.toString().length != 10) {
             return;
         }
 
