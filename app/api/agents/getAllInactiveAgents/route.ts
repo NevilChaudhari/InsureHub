@@ -7,7 +7,8 @@ export async function GET(req: Request) {
     try {
         const { count, error } = await supabase
             .from("agents")
-            .select('*', { count: 'exact', head: true });
+            .select('*', { count: 'exact', head: true })
+            .eq('status', 'inactive');
 
 
         if (error) {

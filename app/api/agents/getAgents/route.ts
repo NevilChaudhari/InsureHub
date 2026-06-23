@@ -1,14 +1,17 @@
 import { createClient } from "@/lib/server";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
     const supabase = await createClient();
+    const body = await req.json();
 
     try {
-        const { count, error } = await supabase
-            .from("agents")
-            .select('*', { count: 'exact', head: true });
 
+        const { data, error } = await supabase
+            .from("agents")
+            .select('*')
+            .range(body.start - 1, body.end - 1)
+            .order('id', { ascending: true })
 
         if (error) {
             return NextResponse.json(
@@ -17,9 +20,10 @@ export async function GET(req: Request) {
             );
         }
 
-        return NextResponse.json({ count });
+        console.log(`from ${body.start} to ${body.end}: ${data.length}`);
+        return NextResponse.json(data)
     } catch (error) {
-        console.error(`err: ${error}`);
+        console.error(error);
 
         return NextResponse.json(
             { error: "Server Error" },
