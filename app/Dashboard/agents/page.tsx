@@ -1,3 +1,5 @@
+'use client'
+
 import CreateNewAgentUI from "./createNewAgentUI";
 import AgentsListUI from "./AgentsListUI";
 import { useEffect, useState } from "react";

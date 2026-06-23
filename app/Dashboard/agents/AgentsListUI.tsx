@@ -1,3 +1,5 @@
+'use client'
+
 import { IconUserFilled, IconPlusFilled, IconDotsFilled, IconCaretLeftFilled, IconCaretRightFilled } from "@tabler/icons-react"
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
