@@ -145,7 +145,7 @@ export default function MainLayout() {
                 {/* Colapse Button */}
                 <div className={`border-t border-slate-700/50 w-full`}></div>
                 <div className="p-3">
-                    <div onClick={() => { setCollapse(!collapse); }} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
+                    <div onClick={() => { setCollapse(!collapse); }} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-slate-300 hover:bg-slate-700/50 hover:text-white">
                         {!collapse && (<span className="shrink-0 text-slate-400"><IconLayoutSidebarLeftCollapseFilled /></span>)}
                         {collapse && (<span className="shrink-0 text-slate-400"><IconLayoutSidebarLeftExpandFilled /></span>)}
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Colapse Menu</span>)}

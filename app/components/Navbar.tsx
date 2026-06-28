@@ -1,4 +1,6 @@
+import { createClient } from "@/lib/supabase";
 import { IconBell, IconChevronDownFilled, IconMenu2Filled, IconUserFilled, IconZoom } from "@tabler/icons-react";
+import { useState, useEffect } from "react";
 
 type params = {
     showSearchBar: boolean,
@@ -7,6 +9,17 @@ type params = {
     colapseSidebar: () => void
 }
 export default function NavbarUI({ showSearchBar, name, placeholderText, colapseSidebar }: params) {
+
+    const [user, setUser] = useState<any>()
+
+    useEffect(() => {
+        const supabase = createClient()
+
+        supabase.auth.getUser().then(({ data }) => {
+            setUser(data.user)
+        })
+    }, [])
+
     return (
         <div className="flex flex-col">
             <div className="flex h-20 items-center place-content-between px-5">
@@ -40,7 +53,7 @@ export default function NavbarUI({ showSearchBar, name, placeholderText, colapse
 
                         {/* Username and Role */}
                         <div className="flex flex-col justify-center">
-                            <div className="flex font-semibold text-sm">Username</div>
+                            <div className="flex font-semibold text-sm">{user ? user.email : ''}</div>
                             <div className="flex text-xs">Role</div>
                         </div>
 

@@ -28,7 +28,7 @@ export default function CreateNewAgentUI({ back, createAgent }: Props) {
                             <IconUser stroke={2} size={50} />
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-sm text-[#475569]">Agents {'>'} Add New Agent</label>
+                            <label className="text-sm text-[#475569]">Agents {'>'} <label className="font-semibold">Add New Agent</label></label>
                             <label className="text-3xl font-bold text-[#0F172A]">Create New Agent</label>
                             <label className="text-[#94A3B8]">Add a new agent to your organization</label>
                         </div>
