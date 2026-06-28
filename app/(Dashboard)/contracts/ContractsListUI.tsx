@@ -12,13 +12,13 @@ interface Customer {
 }
 
 interface Contract {
-    id: number
+    id: string
     policyType: string
     vehicleNumber: string
     vehicleModel: string
     paymentFrequency: number
     endDate: string
-    startDate: number
+    startDate: string
     premiumAmmount: string
     customerId: string
     customers: Customer;
@@ -30,9 +30,10 @@ type Props = {
     totalContracts: number
     totalPremium: number
     getContracts: (start: number, end: number) => void
+    changeModetoDetails: (id: string) => void
 }
 
-export default function ContractsListUI({ addAgent, contract, totalContracts, totalPremium, getContracts }: Props) {
+export default function ContractsListUI({ addAgent, contract, totalContracts, totalPremium, getContracts, changeModetoDetails }: Props) {
 
     const [pages, setPages] = useState(0)
     const [activePage, setActivePage] = useState(0)
@@ -96,7 +97,8 @@ export default function ContractsListUI({ addAgent, contract, totalContracts, to
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-100 bg-gray-50/50">
-                                <th className="h-10 text-start px-5">Customer Id</th>
+                                <th className="h-10 text-start px-5">Contract Id</th>
+                                <th className="h-10 text-start px-5">Customer Name</th>
                                 <th className="h-10 text-start px-5">Policy Type</th>
                                 <th className="h-10 text-start px-5">Vehicle Number</th>
                                 <th className="h-10 text-start px-5">Vehicle Model</th>
@@ -160,7 +162,8 @@ export default function ContractsListUI({ addAgent, contract, totalContracts, to
                                     {contract
                                         .map((contract) => {
                                             return (
-                                                <tr key={contract.id} className="border-b border-gray-50 font-medium text-[#0F172A] hover:bg-[#E5E7EB] cursor-pointer items-center">
+                                                <tr key={contract.id} onClick={() => changeModetoDetails(contract.id)} className="border-b border-gray-50 font-medium text-[#0F172A] hover:bg-[#E5E7EB] cursor-pointer items-center">
+                                                    <td className="px-5 py-3">{contract.id}</td>
                                                     <td className="px-5 py-3">{contract.customers.name}</td>
                                                     <td className="px-5 py-3">{contract.policyType}</td>
                                                     <td className="px-5 py-3">{contract.vehicleNumber}</td>

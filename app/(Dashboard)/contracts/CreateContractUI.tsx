@@ -1,17 +1,17 @@
-import { IconCalendar, IconCalendarEvent, IconCar, IconCaretLeftFilled, IconChevronDownFilled, IconChevronRightFilled, IconCoin, IconFileDescription, IconInfoCircle, IconMail, IconMapPin, IconPhone, IconShieldCheck, IconSquareArrowRightFilled, IconUser, IconXFilled } from "@tabler/icons-react";
+import { IconCalendar, IconCalendarEvent, IconCar, IconCaretLeftFilled, IconCaretRightFilled, IconChevronDownFilled, IconChevronRightFilled, IconCoin, IconFileDescription, IconInfoCircle, IconMail, IconMapPin, IconPhone, IconShieldCheck, IconSquareArrowRightFilled, IconUser, IconXFilled } from "@tabler/icons-react";
 import { differenceInMonths } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
     back: () => void
-    createContract: (name: string, email: string, phone: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount:number) => void
+    createContract: (name: string, email: string, phone: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => void
 }
 
 export default function CreateContractUI({ back, createContract }: Props) {
 
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
-    const [phone, setPhone] = useState<number | null>(null)
+    const [phone, setPhone] = useState<number | null>(0)
     const [address, setAddress] = useState('')
     const [plate, setPlate] = useState('')
     const [model, setModel] = useState('')
@@ -24,11 +24,17 @@ export default function CreateContractUI({ back, createContract }: Props) {
     const total = tax + premiumAmmount;
     const contractPeriod = Number.isNaN((differenceInMonths(endDate, startDate))) ? '0' : `${differenceInMonths(endDate, startDate)}`;
 
-    const clearData = () => {
-        setEmail('')
-        setName('')
-        setPhone(null)
-    }
+    useEffect(() => {
+        if (plan === 'Basic') {
+            setPremiumAmmount(4000)
+        }
+        if (plan === 'Standard') {
+            setPremiumAmmount(9000)
+        }
+        if (plan === 'Premium') {
+            setPremiumAmmount(14999)
+        }
+    }, [plan])
 
     return (
         <div className="w-full h-full bg-[#F8FAFC]">
@@ -36,13 +42,12 @@ export default function CreateContractUI({ back, createContract }: Props) {
                 {/* Header */}
                 <div className="mb-8 flex items-center justify-between">
                     <div className="flex items-center justify-center gap-5">
-                        <div className="flex items-center justify-center w-20 h-20 text-[#2563EB] bg-[#DBEAFE] rounded-md">
-                            <IconFileDescription stroke={2} size={50} />
+                        <div className="flex items-center justify-center w-15 h-15 text-[#2563EB] bg-[#DBEAFE] rounded-md">
+                            <IconFileDescription stroke={2} size={40} />
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-sm text-[#475569]">Contracts {'>'} <label className="font-semibold">New Contract</label></label>
-                            <label className="text-3xl font-bold text-[#0F172A]">Create New Contract</label>
-                            <label className="text-[#94A3B8]">Enter contract details to create a new insurance contract</label>
+                            <label className="text-2xl font-bold text-[#0F172A]">Create New Contract</label>
+                            <label className="text-[#94A3B8] text-sm">Enter contract details to create a new insurance contract</label>
                         </div>
                     </div>
 
@@ -53,7 +58,7 @@ export default function CreateContractUI({ back, createContract }: Props) {
                         </div>
                         <div onClick={() => { createContract(name, email, phone!.toString(), plan, plate, model, new Date(startDate).toISOString(), new Date(endDate).toISOString(), payment, total) }} className="flex items-center justify-center gap-2 font-semibold rounded-lg border border-[#CBD5E1] bg-[#DBEAFE] hover:bg-[#3B82F6] hover:text-white cursor-pointer px-5 h-13 text-sm text-[#475569]">
                             Save & Continue
-                            <IconChevronRightFilled />
+                            <IconCaretRightFilled />
                         </div>
                     </div>
                 </div>
@@ -233,9 +238,31 @@ export default function CreateContractUI({ back, createContract }: Props) {
                                     <div className="flex gap-2">
                                         <label className="text-md text-[#021B3A]">Premium Ammount</label>
                                     </div>
-                                    <div className="flex items-center px-4 border border-[#94A3B8]  h-12 rounded-md gap-3">
+                                    <div className="flex items-center px-4 border border-[#94A3B8] bg-[#f3f4f7] h-12 rounded-md gap-3">
                                         <label className="text-[#16A34A] font-semibold text-xl">$</label>
                                         <label className="text-xl">{premiumAmmount}</label>
+                                    </div>
+                                </div>
+
+                                {/* Tax Ammount */}
+                                <div>
+                                    <div className="flex gap-2">
+                                        <label className="text-md text-[#021B3A]">Tax Ammount</label>
+                                    </div>
+                                    <div className="flex items-center px-4 border border-[#94A3B8] bg-[#f3f4f7] h-12 rounded-md gap-3">
+                                        <label className="text-[#16A34A] font-semibold text-xl">$</label>
+                                        <label className="text-xl">{tax}</label>
+                                    </div>
+                                </div>
+
+                                {/* Total Ammount */}
+                                <div>
+                                    <div className="flex gap-2">
+                                        <label className="text-md text-[#021B3A]">Total Ammount</label>
+                                    </div>
+                                    <div className="flex items-center px-4 border border-[#94A3B8] bg-[#f3f4f7] h-12 rounded-md gap-3">
+                                        <label className="text-[#16A34A] font-semibold text-xl">$</label>
+                                        <label className="text-xl">{total}</label>
                                     </div>
                                 </div>
                             </div>

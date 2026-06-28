@@ -2,34 +2,69 @@
 import { useEffect, useState } from "react";
 import CreateContractUI from "./CreateContractUI";
 import ContractsListUI from "./ContractsListUI";
+import ContractDetailsUI from "./ContractDetailsUI";
 
 interface Customer {
     id: string;
     name: string;
+    email: string;
+    phone: string;
 }
 
 interface Contract {
-    id: number
+    id: string
     policyType: string
     vehicleNumber: string
     vehicleModel: string
     paymentFrequency: number
     endDate: string
-    startDate: number
+    startDate: string
     premiumAmmount: string
     customerId: string
     customers: Customer;
 }
 
+type active = 'List' | 'Create' | 'Details';
+
 export default function Contracts() {
 
-    const [addContract, setAddContract] = useState(false)
+    const defaultCustomer = {
+        id: 'loading...',
+        name: 'loading...',
+        email: 'loading...',
+        phone: 'loading...',
+    }
+
+    const defaultData = {
+        id: 'loading...',
+        policyType: 'loading...',
+        vehicleNumber: 'loading...',
+        vehicleModel: 'loading...',
+        paymentFrequency: 0,
+        endDate: new Date().toISOString(),
+        startDate: new Date().toISOString(),
+        premiumAmmount: 'loading...',
+        customerId: 'loading...',
+        customers: defaultCustomer
+    }
+
+    const [active, setActive] = useState<active>('List')
     const [totalContracts, setTotalContracts] = useState<number>(0)
     const [totalPremium, setTotalPremium] = useState<number>(0)
-    const [agents, setContracts] = useState<Contract[]>([])
+    const [contracts, setContracts] = useState<Contract[]>([])
+    const [contract, setContract] = useState<Contract>(defaultData)
+    const [activeContract, setActiveContract] = useState<string>('')
 
-    const changeMode = () => {
-        setAddContract(!addContract)
+    const changeModetoList = () => {
+        setActive('List')
+    }
+    const changeModetoCreate = () => {
+        setActive('Create')
+    }
+    const changeModetoDetails = (id: string) => {
+        setActiveContract(id)
+        getSpecificContract(id)
+        setActive('Details')
     }
 
     const getAllContracts = async () => {
@@ -57,6 +92,20 @@ export default function Contracts() {
         })
         const data = await res.json()
         setContracts(data)
+    }
+
+    const getSpecificContract = async (id: string) => {
+        const res = await fetch('/api/contract/getSpecificContract', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        })
+        const data = await res.json()
+        setContract(data)
     }
 
 
@@ -100,7 +149,7 @@ export default function Contracts() {
             body: JSON.stringify(body),
         })
 
-        changeMode()
+        changeModetoList()
     }
 
     useEffect(() => {
@@ -110,16 +159,23 @@ export default function Contracts() {
     }, [])
 
     useEffect(() => {
-        console.log("agents updated", agents);
-    }, [agents]);
+        console.log("agents updated", contracts);
+    }, [contracts]);
+
+    useEffect(() => {
+        console.log("contract updated", contract);
+    }, [contract]);
 
     return (
         <div className="relative flex flex-col w-full h-full">
-            {/* New Agent Page */}
-            {addContract && (<CreateContractUI back={changeMode} createContract={createContract} />)}
+            {/* Create */}
+            {active === 'Create' && (<CreateContractUI back={changeModetoList} createContract={createContract} />)}
 
-            {/* Content */}
-            {!addContract && (<ContractsListUI addAgent={changeMode} contract={agents} getContracts={() => { getContracts }} totalContracts={totalContracts} totalPremium={totalPremium} />)}
+            {/* Create */}
+            {active === 'List' && (<ContractsListUI addAgent={changeModetoCreate} contract={contracts} getContracts={() => { getContracts }} totalContracts={totalContracts} totalPremium={totalPremium} changeModetoDetails={changeModetoDetails} />)}
+
+            {/* Details */}
+            {active === 'Details' && (<ContractDetailsUI changeModetoList={changeModetoList} contract={contract ?? defaultData} />)}
         </div>
     )
 }
