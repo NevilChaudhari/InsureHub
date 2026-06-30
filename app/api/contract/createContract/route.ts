@@ -8,7 +8,10 @@ export async function POST(req: Request) {
         const body = await req.json();
 
         const {
-            customerId,
+            name,
+            email,
+            phone,
+            address,
             policType,
             vehicleNumber,
             vehicleModel,
@@ -19,7 +22,10 @@ export async function POST(req: Request) {
         } = body;
 
         if (
-            !customerId ||
+            !name ||
+            !email ||
+            !phone ||
+            !address ||
             !policType ||
             !vehicleNumber ||
             !vehicleModel ||
@@ -37,10 +43,47 @@ export async function POST(req: Request) {
             );
         }
 
+        const { data: customerData, error: customerError } = await supabase
+            .from("customers")
+            .insert([
+                {
+                    name: body.name,
+                    email: body.email,
+                    phone: body.phone,
+                    address: body.address,
+                },
+            ])
+            .select()
+            .single();
+
+        if (customerError) {
+            console.log(`--=> customerError: ${customerError.message}`);
+
+            return NextResponse.json(
+                { error: customerError.message },
+                { status: 400 }
+            );
+        }
+
+        const { data: rateSheetData, error: rateSheetError } = await supabase
+            .from("ratesheet")
+            .insert([{}])
+            .select()
+            .single();
+
+        if (rateSheetError) {
+            console.log(`--=> rateSheetError: ${rateSheetError.message}`);
+
+            return NextResponse.json(
+                { error: rateSheetError.message },
+                { status: 400 }
+            );
+        }
+
         const { data, error } = await supabase
             .from("contracts")
             .insert({
-                customerId: customerId,
+                customerId: customerData.id,
                 policyType: policType,
                 vehicleNumber: vehicleNumber,
                 vehicleModel: vehicleModel,
@@ -48,12 +91,13 @@ export async function POST(req: Request) {
                 endDate: endDate,
                 paymentFrequency: paymentFrequency,
                 premiumAmmount: premiumAmmount,
+                ratesheet: rateSheetData.id
             })
             .select()
             .single();
 
         if (error) {
-            console.log(error.message);
+            console.log(`--=> contractError: ${error.message}`);
 
             return NextResponse.json(
                 { error: error.message },

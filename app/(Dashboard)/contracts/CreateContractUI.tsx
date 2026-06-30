@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 type Props = {
     back: () => void
-    createContract: (name: string, email: string, phone: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => void
+    createContract: (name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => void
 }
 
 export default function CreateContractUI({ back, createContract }: Props) {
@@ -56,7 +56,7 @@ export default function CreateContractUI({ back, createContract }: Props) {
                             <IconXFilled />
                             Cancel
                         </div>
-                        <div onClick={() => { createContract(name, email, phone!.toString(), plan, plate, model, new Date(startDate).toISOString(), new Date(endDate).toISOString(), payment, total) }} className="flex items-center justify-center gap-2 font-semibold rounded-lg border border-[#CBD5E1] bg-[#DBEAFE] hover:bg-[#3B82F6] hover:text-white cursor-pointer px-5 h-13 text-sm text-[#475569]">
+                        <div onClick={() => { createContract(name, email, phone!.toString(), address, plan, plate, model, new Date(startDate).toISOString(), new Date(endDate).toISOString(), payment, total) }} className="flex items-center justify-center gap-2 font-semibold rounded-lg border border-[#CBD5E1] bg-[#DBEAFE] hover:bg-[#3B82F6] hover:text-white cursor-pointer px-5 h-13 text-sm text-[#475569]">
                             Save & Continue
                             <IconCaretRightFilled />
                         </div>

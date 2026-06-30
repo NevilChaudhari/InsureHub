@@ -75,7 +75,7 @@ export default function ContractsListUI({ addAgent, contract, totalContracts, to
                 <div className="flex bg-white border border-[#E2E8F0] rounded-lg w-70 h-25 items-center p-3 place-content-between">
                     <div className="flex flex-col place-content-evenly h-full">
                         <label className="text-[#0F172A] font-semibold text-sm">Total Premium</label>
-                        <label className="text-[#16A34A] font-bold text-2xl">{totalPremium}</label>
+                        <label className="text-[#16A34A] font-bold text-2xl">{Number(totalPremium).toFixed(3)}</label>
                     </div>
 
                     <div className="rounded-xl bg-[#DCFCE7] w-13 h-13 flex items-center justify-center text-[#16A34A]"><IconCoin size={30} /></div>

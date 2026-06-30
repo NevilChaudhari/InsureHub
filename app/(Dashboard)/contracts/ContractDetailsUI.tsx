@@ -2,6 +2,8 @@
 
 import { IconFileDescription, IconXFilled, IconChevronRightFilled, IconCaretLeftFilled, IconCopy, IconUser, IconCar, IconCalendarEvent, IconClock, IconCoin } from "@tabler/icons-react";
 import { differenceInDays, format } from "date-fns";
+import { PieChart } from "lucide-react";
+import { ResponsiveContainer, Pie, Cell, Tooltip, Legend } from "recharts";
 
 interface props {
     contract: Contract
@@ -13,6 +15,16 @@ interface Customer {
     name: string;
     email: string;
     phone: string;
+    address: string;
+}
+
+interface Ratesheet {
+    id: string;
+    dealer: number;
+    agent: number;
+    claimReserve: number;
+    gst: number;
+    processingFee: number;
 }
 
 interface Contract {
@@ -26,12 +38,20 @@ interface Contract {
     premiumAmmount: string
     customerId: string
     customers: Customer;
+    ratesheet: Ratesheet;
 }
 
+const data = [
+    { name: "Desktop", value: 400 },
+    { name: "Mobile", value: 300 },
+    { name: "Tablet", value: 200 },
+    { name: "Other", value: 100 },
+];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 export default function ContractDetailsUI({ contract, changeModetoList }: props) {
 
     return (
-        <div className="w-full h-full bg-[#F8FAFC]">
+        <div className="w-full h-full bg-[#F8FAFC] flex flex-col gap-5">
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
                 <div className="flex items-center justify-center gap-5">
@@ -139,6 +159,102 @@ export default function ContractDetailsUI({ contract, changeModetoList }: props)
                     <p className="font-medium text-[#0F172A]">{contract.paymentFrequency}</p>
                 </div>
             </div>
-        </div>
+
+            <div className="flex gap-5">
+
+                <div className="w-full rounded-2xl border border-[#E2E8F0] bg-white p-6 flex flex-col gap-10">
+                    <label className="font-semibold text-xl">Policy Overview</label>
+                    <div className="flex gap-10">
+                        <div className="flex gap-5">
+                            <div className="flex flex-col">
+                                <label className="min-w-35">Insured Name</label>
+                                <label className="min-w-35">Phone</label>
+                                <label className="min-w-35">Email</label>
+                                <label className="min-w-35">Address</label>
+                            </div>
+                            <div className="flex flex-col">
+                                <label className="min-w-5">:</label>
+                                <label className="min-w-5">:</label>
+                                <label className="min-w-5">:</label>
+                                <label className="min-w-5">:</label>
+                            </div>
+                            <div className="flex flex-col">
+                                <label className="min-w-30 max-w-120">{contract.customers.name}</label>
+                                <label className="min-w-30 max-w-120">{contract.customers.phone}</label>
+                                <label className="min-w-30 max-w-120">{contract.customers.email}</label>
+                                <label className="min-w-30 max-w-120">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, quis.</label>
+                            </div>
+                        </div>
+
+                        <div className="border border-[#E5E7EB]" />
+
+                        <div className="flex gap-5">
+                            <div className="flex flex-col">
+                                <label className="min-w-35">Vehicle Number</label>
+                                <label className="min-w-35">Vehicle Model</label>
+                            </div>
+                            <div className="flex flex-col">
+                                <label className="min-w-5">:</label>
+                                <label className="min-w-5">:</label>
+                            </div>
+                            <div className="flex flex-col">
+                                <label className="min-w-30">{contract.vehicleNumber}</label>
+                                <label className="min-w-30">{contract.vehicleModel}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="w-[50%] rounded-2xl border border-[#E2E8F0] bg-white p-6 flex flex-col gap-10">
+                    {`{chart}`}
+                </div>
+            </div>
+
+            <div className="w-full rounded-2xl border border-[#E2E8F0] bg-white p-6 flex flex-col gap-10">
+                <label className="font-semibold text-xl">Ratesheet</label>
+                <div className="flex gap-10">
+                    <div className="flex flex-col">
+                        <label className="">Dealer</label>
+                        <label className="">Agent</label>
+                        <label className="">Claim Reserve</label>
+                        <label className="">G.S.T.</label>
+                        <label className="">Processing Fee</label>
+                        <label className="">Base Premium</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="">{contract.ratesheet.dealer}</label>
+                        <label className="">{contract.ratesheet.agent}</label>
+                        <label className="">{contract.ratesheet.claimReserve}</label>
+                        <label className="">{contract.ratesheet.gst}</label>
+                        <label className="">{contract.ratesheet.processingFee}</label>
+                        <label className="">{100 - (contract.ratesheet.dealer) - (contract.ratesheet.agent) - (contract.ratesheet.claimReserve) - (contract.ratesheet.gst) - (contract.ratesheet.processingFee)}</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                        <label className="">:</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="">{(Number(contract.premiumAmmount) * contract.ratesheet.dealer) / 100}</label>
+                        <label className="">{(Number(contract.premiumAmmount) * contract.ratesheet.agent) / 100}</label>
+                        <label className="">{(Number(contract.premiumAmmount) * contract.ratesheet.claimReserve) / 100}</label>
+                        <label className="">{(Number(contract.premiumAmmount) * contract.ratesheet.gst) / 100}</label>
+                        <label className="">{(Number(contract.premiumAmmount) * contract.ratesheet.processingFee) / 100}</label>
+                        <label className="">{(Number(contract.premiumAmmount) - (Number(contract.premiumAmmount) * contract.ratesheet.dealer) / 100) + ((Number(contract.premiumAmmount) * contract.ratesheet.agent) / 100) + ((Number(contract.premiumAmmount) * contract.ratesheet.claimReserve) / 100) + ((Number(contract.premiumAmmount) * contract.ratesheet.gst) / 100) + ((Number(contract.premiumAmmount) * contract.ratesheet.processingFee) / 100)}</label>
+                    </div>
+                </div>
+            </div>
+        </div >
     );
 }

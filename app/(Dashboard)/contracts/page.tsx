@@ -9,6 +9,16 @@ interface Customer {
     name: string;
     email: string;
     phone: string;
+    address: string;
+}
+
+interface Ratesheet {
+    id: string;
+    dealer: number;
+    agent: number;
+    claimReserve: number;
+    gst: number;
+    processingFee: number;
 }
 
 interface Contract {
@@ -22,6 +32,7 @@ interface Contract {
     premiumAmmount: string
     customerId: string
     customers: Customer;
+    ratesheet: Ratesheet;
 }
 
 type active = 'List' | 'Create' | 'Details';
@@ -33,6 +44,16 @@ export default function Contracts() {
         name: 'loading...',
         email: 'loading...',
         phone: 'loading...',
+        address: 'loading...',
+    }
+
+    const defaultRatesheet = {
+        id: 'loading...',
+        dealer: 0,
+        agent: 0,
+        claimReserve: 0,
+        gst: 0,
+        processingFee: 0
     }
 
     const defaultData = {
@@ -45,7 +66,8 @@ export default function Contracts() {
         startDate: new Date().toISOString(),
         premiumAmmount: 'loading...',
         customerId: 'loading...',
-        customers: defaultCustomer
+        customers: defaultCustomer,
+        ratesheet: defaultRatesheet
     }
 
     const [active, setActive] = useState<active>('List')
@@ -108,38 +130,17 @@ export default function Contracts() {
         setContract(data)
     }
 
-
-    const createCustomer = async (name: string, email: string, phone: string) => {
-
-        if (!name || !email || !phone || phone.toString().length != 10) {
-            return;
-        }
-
-        const res = await fetch('/api/contract/createCustomer/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                phone: phone,
-            }),
-        })
-        const data = await res.json()
-
-        return (data.id)
-    }
-
-    const createContract = async (name: string, email: string, phone: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => {
+    const createContract = async (name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => {
 
         if (!name || !email || !phone || !policType || !vehicleNumber || !vehicleModel || !startDate || !endDate || !paymentFrequency || !premiumAmmount) {
+            alert('what')
             return;
         }
 
-        const customerId = await createCustomer(name, email, phone)
+        // const customerId = await createCustomer(name, email, phone, address)
 
-        const body = { customerId, policType, vehicleNumber, vehicleModel, startDate, endDate, paymentFrequency, premiumAmmount }
+        // const body = { customerId, policType, vehicleNumber, vehicleModel, startDate, endDate, paymentFrequency, premiumAmmount }
+        const body = { name, email, phone, address, policType, vehicleNumber, vehicleModel, startDate, endDate, paymentFrequency, premiumAmmount }
 
         const res = await fetch('/api/contract/createContract/', {
             method: 'POST',

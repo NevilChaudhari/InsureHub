@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
         const { data, error } = await supabase
             .from("contracts")
-            .select('*,customers(*)')
+            .select('*,customers(*), ratesheet(*)')
             .eq('id', body.id)
             .single();
 
