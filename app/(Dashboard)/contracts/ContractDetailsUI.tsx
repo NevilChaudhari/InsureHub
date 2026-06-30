@@ -3,7 +3,6 @@
 import { IconFileDescription, IconXFilled, IconChevronRightFilled, IconCaretLeftFilled, IconCopy, IconUser, IconCar, IconCalendarEvent, IconClock, IconCoin } from "@tabler/icons-react";
 import { differenceInDays, format } from "date-fns";
 import { PieChart } from "lucide-react";
-import { ResponsiveContainer, Pie, Cell, Tooltip, Legend } from "recharts";
 
 interface props {
     contract: Contract
