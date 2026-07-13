@@ -270,7 +270,7 @@ export default function CreateContractUI({ back, createContract }: Props) {
                     </div>
 
                     {/* Information */}
-                    <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm w-[30%] px-5 py-5 flex flex-col gap-5">
+                    <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm w-[30%] px-5 py-5 flex flex-col gap-5 self-start">
                         <div className="text-[#2563EB] flex items-center justify-start font-bold text-xl gap-3">
                             <IconFileDescription stroke={2} size={40} />
                             <label className="text-black">Contract Summary</label>

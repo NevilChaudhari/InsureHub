@@ -1,43 +1,65 @@
 'use client'
 
-import { useState } from "react"
-import RateSheetUI from "./rateSheet"
+import { useEffect, useState } from "react"
+import RatesheetListUI from "./RatesheetListUI"
 
 interface RateSheet {
-    ratesheetId: string
+    id: string
     contractId: string
-    dealer: string
-    agent: string
+    dealer: number
+    agent: number
     claimReserve: number
     gst: number
     processingFee: number
 }
 
-const MOCK_RATE_SHEETS: RateSheet = {
-    ratesheetId: "1",
-    contractId: "C-001",
-    dealer: "Dealer A",
-    agent: "Agent X",
-    claimReserve: 10000,
-    gst: 500,
-    processingFee: 200
+interface Contract {
+    id: string
+    policyType: string
+    vehicleNumber: string
+    vehicleModel: string
+    paymentFrequency: number
+    endDate: string
+    startDate: string
+    premiumAmmount: string
+    customerId: string
+    ratesheet: RateSheet;
 }
 
-const totalRateSheets = 0
-const totalActive     = 2
-const totalInactive   = 1
-
 export default function RateSheets() {
-    const [rateSheets] = useState<RateSheet[]>([MOCK_RATE_SHEETS])
+    const [rateSheets, setRatesheets] = useState<Contract[]>([])
+    const [totalContracts, setTotalContracts] = useState<number>(0)
+
+    const getContracts = async (start: number, end: number) => {
+        const res = await fetch('/api/ratesheet/getRatesheets', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                start: start,
+                end: end
+            })
+        })
+
+        const data = await res.json()
+        setRatesheets(data)
+    }
+
+    const getAllContracts = async () => {
+        const res = await fetch('/api/contract/getAllContracts')
+        const data = await res.json()
+        setTotalContracts(data.count)
+    }
+
+    useEffect(() => {
+        getAllContracts()
+        getContracts(0, 10);
+    }, [])
 
     return (
         <div className="relative flex flex-col w-full h-full">
-            <RateSheetUI
-                rateSheets={rateSheets}
-                totalRateSheets={totalRateSheets}
-                totalActive={totalActive}
-                totalInactive={totalInactive}
-            />
+            <RatesheetListUI contract={rateSheets} totalContracts={totalContracts} getContracts={getContracts} />
         </div>
     )
 }

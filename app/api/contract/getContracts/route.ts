@@ -19,8 +19,7 @@ export async function POST(req: Request) {
                 { status: 400 }
             );
         }
-
-        console.log(`from ${body.start} to ${body.end}: ${data.length}`);
+        
         return NextResponse.json(data)
     } catch (error) {
         console.error(error);
