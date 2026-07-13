@@ -97,15 +97,15 @@ export default function ContractsListUI({ addAgent, contract, totalContracts, to
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-100 bg-gray-50/50">
-                                <th className="h-10 text-start px-5">Contract Id</th>
-                                <th className="h-10 text-start px-5">Customer Name</th>
-                                <th className="h-10 text-start px-5">Policy Type</th>
-                                <th className="h-10 text-start px-5">Vehicle Number</th>
-                                <th className="h-10 text-start px-5">Vehicle Model</th>
-                                <th className="h-10 text-start px-5">Payment Frequency</th>
-                                <th className="h-10 text-start px-5">Start Date</th>
-                                <th className="h-10 text-start px-5">End Date</th>
-                                <th className="h-10 text-start px-5">Premium Ammount</th>
+                                <th className="h-10 min-w-90 text-start px-5">Contract Id</th>
+                                <th className="h-10 min-w-35 text-start px-5">Customer Name</th>
+                                <th className="h-10 min-w-35 text-start px-5">Policy Type</th>
+                                <th className="h-10 min-w-40 text-start px-5">Vehicle Number</th>
+                                <th className="h-10 min-w-40 text-start px-5">Vehicle Model</th>
+                                <th className="h-10 min-w-50 text-start px-5">Payment Frequency</th>
+                                <th className="h-10 min-w-35 text-start px-5">Start Date</th>
+                                <th className="h-10 min-w-35 text-start px-5">End Date</th>
+                                <th className="h-10 min-w-50 text-start px-5">Premium Ammount</th>
                             </tr>
                         </thead>
 

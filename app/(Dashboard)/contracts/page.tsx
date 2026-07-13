@@ -53,7 +53,7 @@ export default function Contracts() {
         agent: 0,
         claimReserve: 0,
         gst: 0,
-        processingFee: 0
+        processingFee: 0,
     }
 
     const defaultData = {
@@ -83,7 +83,7 @@ export default function Contracts() {
     const changeModetoCreate = () => {
         setActive('Create')
     }
-    const changeModetoDetails = (id: string) => {
+    const changeModetoDetails = async (id: string) => {
         setActiveContract(id)
         getSpecificContract(id)
         setActive('Details')
@@ -153,6 +153,25 @@ export default function Contracts() {
         changeModetoList()
     }
 
+    const updateRatesheet = async (id: string, dealer: number, agent: number, claimReserve: number, processingFee: number) => {
+        const res = await fetch('/api/ratesheet/updateRatesheet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id,
+                dealer: dealer,
+                agent: agent,
+                claimReserve: claimReserve,
+                processingFee: processingFee
+            })
+        })
+
+        const data = await res.json()
+        console.table(data)
+    }
+
     useEffect(() => {
         getAllContracts()
         getContracts(0, 10);
@@ -176,7 +195,7 @@ export default function Contracts() {
             {active === 'List' && (<ContractsListUI addAgent={changeModetoCreate} contract={contracts} getContracts={() => { getContracts }} totalContracts={totalContracts} totalPremium={totalPremium} changeModetoDetails={changeModetoDetails} />)}
 
             {/* Details */}
-            {active === 'Details' && (<ContractDetailsUI changeModetoList={changeModetoList} contract={contract ?? defaultData} />)}
+            {active === 'Details' && contract && (<ContractDetailsUI changeModetoList={changeModetoList} contract={contract} updateRatesheet={updateRatesheet} />)}
         </div>
     )
 }
