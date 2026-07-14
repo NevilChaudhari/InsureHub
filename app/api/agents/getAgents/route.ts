@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
         const { data, error } = await supabase
             .from("agents")
-            .select('*')
+            .select('*,userId(*)')
             .range(body.start - 1, body.end - 1)
             .order('id', { ascending: true })
 

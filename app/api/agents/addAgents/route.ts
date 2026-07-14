@@ -7,35 +7,60 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
 
-        if (!body.name || !body.email || !body.phone) {
+        if (!body.name || !body.email || !body.phone || !body.password) {
             return NextResponse.json(
                 { error: "Name, email and phone are required" },
                 { status: 400 }
             );
         }
 
-        const { data, error } = await supabase
-            .from("agents")
+        console.log('start addAgent-------')
+
+        const { data: userData, error: userError } = await supabase
+            .from("users")
             .insert([
                 {
                     name: body.name,
                     email: body.email,
-                    phone: body.phone,
+                    role: body.role,
+                    id: body.id
                 },
             ])
             .select()
             .single();
 
-        if (error) {
-            console.log(error.message);
-            
+        if (userError) {
+            console.log(userError.message);
+
             return NextResponse.json(
-                { error: error.message },
+                { error: userError.message },
                 { status: 400 }
             );
         }
 
-        return NextResponse.json(data, {
+        const { data: agentData, error: agentError } = await supabase
+            .from("agents")
+            .insert([
+                {
+                    phone: body.phone,
+                    userId: userData.id
+                },
+            ])
+            .select()
+            .single();
+
+        if (agentError) {
+            console.log(agentError.message);
+
+            return NextResponse.json(
+                { error: agentError.message },
+                { status: 400 }
+            );
+        }
+
+        console.log('end addAgent-------')
+
+        return NextResponse.json(agentData, {
             status: 201,
         });
     } catch (error) {

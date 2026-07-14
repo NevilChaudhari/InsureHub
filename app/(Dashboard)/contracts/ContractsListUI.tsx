@@ -98,7 +98,7 @@ export default function ContractsListUI({ addAgent, contract, totalContracts, to
                         <thead>
                             <tr className="border-b border-gray-100 bg-gray-50/50">
                                 <th className="h-10 min-w-90 text-start px-5">Contract Id</th>
-                                <th className="h-10 min-w-35 text-start px-5">Customer Name</th>
+                                <th className="h-10 min-w-40 text-start px-5">Customer Name</th>
                                 <th className="h-10 min-w-35 text-start px-5">Policy Type</th>
                                 <th className="h-10 min-w-40 text-start px-5">Vehicle Number</th>
                                 <th className="h-10 min-w-40 text-start px-5">Vehicle Model</th>

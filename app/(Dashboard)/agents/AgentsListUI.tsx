@@ -5,15 +5,21 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
+interface User {
+    id: string
+    name: string
+    created_at: string
+    role: string
+    email: string
+}
+
 interface Agent {
     id: number
-    name: string
-    code: string
-    email: string
     phone: number
-    status: string
     dealers: number
-    joinedOn: string
+    code: string
+    status: string
+    userId: User
 }
 
 type Props = {
@@ -163,9 +169,9 @@ export default function AgentsListUI({ addAgent, agents, totalAgents, totalActiv
                                         .map((agent) => {
                                             return (
                                                 <tr key={agent.id} className="border-b border-gray-50 font-medium text-gray-800 hover:bg-gray-50/50 bg-green transition-colors items-center">
-                                                    <td className="px-5 py-3">{agent.name}</td>
+                                                    <td className="px-5 py-3">{agent.userId.name}</td>
                                                     <td className="px-5 py-3">{agent.code}</td>
-                                                    <td className="px-5 py-3">{agent.email}</td>
+                                                    <td className="px-5 py-3">{agent.userId.email}</td>
                                                     <td className="px-5 py-3">{agent.phone}</td>
                                                     <td className="px-5 py-3">
                                                         {agent.status === 'inactive'
@@ -178,7 +184,7 @@ export default function AgentsListUI({ addAgent, agents, totalAgents, totalActiv
                                                         }
                                                     </td>
                                                     <td className="px-5 py-3">{agent.dealers}</td>
-                                                    <td className="px-5 py-3">{format(new Date(agent.joinedOn), "MMM d, yyyy")}</td>
+                                                    <td className="px-5 py-3">{format(new Date(agent.userId.created_at), "MMM d, yyyy")}</td>
                                                     <td className="px-5 py-3">
                                                         <div className="cursor-pointer hover:bg-[#F1F5F9] w-10 h-8 border border-[#CBD5E1] rounded-md flex items-center justify-center"><IconDotsFilled /></div>
                                                     </td>

@@ -3,19 +3,27 @@
 import CreateNewAgentUI from "./createNewAgentUI";
 import AgentsListUI from "./AgentsListUI";
 import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase";
+
+interface User {
+    id: string
+    name: string
+    created_at: string
+    role: string
+    email: string
+}
 
 interface Agent {
     id: number
-    name: string
-    code: string
-    email: string
     phone: number
-    status: string
     dealers: number
-    joinedOn: string
+    code: string
+    status: string
+    userId: User
 }
 
 export default function Agents() {
+    const supabase = createClient();
 
     const [addAgents, setAddAgents] = useState(false)
     const [totalAgents, setTotalAgents] = useState<number>(0)
@@ -61,13 +69,14 @@ export default function Agents() {
     }
 
 
-    const createAgent = async (name: string, email: string, phone: number) => {
+    const createAgent = async (name: string, email: string, phone: number, password: string) => {
 
-        if (!name || !email || !phone || phone.toString().length != 10) {
+        if (!name || !email || !password || !phone || phone.toString().length != 10) {
+            alert('fill the fields')
             return;
         }
 
-        const res = await fetch('/api/agents/addAgents', {
+        const userData = await fetch('/api/auth/createUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,9 +84,59 @@ export default function Agents() {
             body: JSON.stringify({
                 name: name,
                 email: email,
-                phone: phone,
+                password: password
             }),
         })
+
+        const uData = await userData.json();
+
+        if (!userData.ok) {
+            alert(uData.error?.message || "Failed to create user");
+            return;
+        }
+
+        if (uData.error) {
+            alert(`Agent Auth Error: ${uData.error.message}`);
+            return;
+        }
+
+        if (!uData?.user?.id) {
+            console.log("Agent ID not received");
+            return;
+        }
+
+        // alert(JSON.stringify(uData))
+
+        try {
+            const res = await fetch('/api/agents/addAgents', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    role: 'agent',
+                    id: uData.user.id
+                }),
+            })
+
+            const data = await res.json()
+
+            console.log("Status:", res.status);
+            console.log("Response:", data);
+
+            if (data.error) {
+                alert(`Agent Error: ${data.error.message}`)
+                return;
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong.");
+        }
+
         getAgents(0, 10);
         changeMode()
     }

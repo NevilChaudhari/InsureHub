@@ -65,7 +65,7 @@ export default function MainLayout() {
 
     return (
         <div className="flex">
-            <div className={`left-0 top-0 h-screen flex flex-col transition-all duration-100 z-40 bg-[#021B3A] border-right border-1px border-black justify-center ${collapse ? "w-[3vw] items-center" : "w-[15vw]"} px-2`}>
+            <div className={`left-0 top-0 h-screen flex flex-col transition-all duration-100 z-40 bg-[#021B3A] border-right border-1px border-black justify-center ${collapse ? "min-w-[3vw] items-center" : "min-w-[15vw]"} px-2`}>
                 <div className="flex items-center gap-2.5 py-4">
                     <div className="shrink-0 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">O</div>
                     {!collapse && (<div>
@@ -86,7 +86,7 @@ export default function MainLayout() {
 
                     <div onClick={() => { changeCurrentPage("agents"); }} className={`${currentPage === 'agents' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
                         <span>A</span>
-                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Agent</span>)}
+                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Agents</span>)}
                     </div>
                     <div onClick={() => { changeCurrentPage("customers"); }} className={`${currentPage === 'customers' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
                         <span>C</span>

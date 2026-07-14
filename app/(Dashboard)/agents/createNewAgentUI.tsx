@@ -1,9 +1,9 @@
-import { IconCaretLeftFilled, IconMail, IconPhone, IconUser } from "@tabler/icons-react";
+import { IconCaretLeftFilled, IconLock, IconMail, IconPhone, IconUser } from "@tabler/icons-react";
 import { useState } from "react";
 
 type Props = {
     back: () => void
-    createAgent: (name: string, email: string, phone: number) => void
+    createAgent: (name: string, email: string, phone: number, password: string) => void
 }
 
 export default function CreateNewAgentUI({ back, createAgent }: Props) {
@@ -11,11 +11,13 @@ export default function CreateNewAgentUI({ back, createAgent }: Props) {
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [phone, setPhone] = useState<number | null>(null)
+    const [password, setPassword] = useState<string>('')
 
     const clearData = () => {
-        setEmail('')
-        setName('')
-        setPhone(null)
+        // setEmail('')
+        // setName('')
+        // setPhone(null)
+        // setPassword('')
     }
 
     return (
@@ -57,7 +59,7 @@ export default function CreateNewAgentUI({ back, createAgent }: Props) {
                                 </div>
                                 <div className="flex items-center justify-center border border-[#94A3B8] rounded-sm h-12 px-2 gap-2">
                                     <IconUser stroke={2} className="text-[#94A3B8]" size={28} />
-                                    <input value={name} onChange={(e) => { setName(e.target.value) }} type="text" name="Email" id="email" placeholder="Enter your name" className="w-full h-full focus:outline-none focus:ring-0" />
+                                    <input value={name} onChange={(e) => { setName(e.target.value) }} type="text" name="Email" id="email" placeholder="Enter name" className="w-full h-full focus:outline-none focus:ring-0" />
                                 </div>
                             </div>
 
@@ -69,7 +71,7 @@ export default function CreateNewAgentUI({ back, createAgent }: Props) {
                                 </div>
                                 <div className="flex items-center justify-center border border-[#94A3B8] rounded-sm h-12 px-2 gap-2">
                                     <IconMail stroke={2} className="text-[#94A3B8]" size={28} />
-                                    <input value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" name="Email" id="email" placeholder="Enter your email" className="w-full h-full focus:outline-none focus:ring-0" />
+                                    <input value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" name="Email" id="email" placeholder="Enter email" className="w-full h-full focus:outline-none focus:ring-0" />
                                 </div>
                             </div>
 
@@ -84,6 +86,18 @@ export default function CreateNewAgentUI({ back, createAgent }: Props) {
                                     <input value={phone!} onChange={(e) => { setPhone(Number(e.target.value)) }} maxLength={10} type="tel" name="Email" id="email" placeholder="1234567890" className="w-full h-full focus:outline-none focus:ring-0" />
                                 </div>
                             </div>
+
+                            {/* Password */}
+                            <div>
+                                <div className="flex gap-2">
+                                    <label className="text-md text-[#021B3A]">Password</label>
+                                    <label className="text-md text-[#DC2626]">*</label>
+                                </div>
+                                <div className="flex items-center justify-center border border-[#94A3B8] rounded-sm h-12 px-2 gap-2">
+                                    <IconLock stroke={2} className="text-[#94A3B8]" size={28} />
+                                    <input value={password!} onChange={(e) => { setPassword(e.target.value) }} type="text" name="Password" id="password" placeholder="Enter Password" className="w-full h-full focus:outline-none focus:ring-0" />
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -91,7 +105,7 @@ export default function CreateNewAgentUI({ back, createAgent }: Props) {
                     <div className="flex gap-6 p-8">
                         <div className="cursor-pointer rounded-lg border border-slate-300 bg-white px-6 py-3 font-medium text-slate-700 hover:bg-slate-50">Cancel</div>
 
-                        <div onClick={() => { clearData(); createAgent(name, email, phone!) }} className="cursor-pointer rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700" >Create Agent</div>
+                        <div onClick={() => { clearData(); createAgent(name, email, phone!, password) }} className="cursor-pointer rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700" >Create Agent</div>
                     </div>
                 </div>
             </div>

@@ -239,22 +239,37 @@ export default function RatesheetListUI({ contract, totalContracts, getContracts
 
             {/* Ratesheet Data */}
             {selectedRatesheet && (
-                <div className="bg-white w-full gap-5 min-h-100 flex flex-col px-3 py-2 rounded-xl border border-gray-100 shadow-sm overflow-hidden self-start">
+                <div className="bg-white w-full gap-5 min-h-60 flex flex-col px-3 py-2 rounded-xl border border-gray-100 shadow-sm overflow-hidden self-start">
 
                     <label className="text-black font-semibold">About Ratesheet</label>
 
-                    <div className="flex">
-                        <div className="flex">
-                            <label className="min-w-30 text-black text-sm">Ratesheet Id</label>
-                            <label className="min-w-30 text-black text-sm">{selectedRatesheet?.id}</label>
-                        </div>
-                    </div>
-                    <div className="flex">
-                        <div className="flex">
-                            <label className="min-w-30 text-black text-sm">Ratesheet Dealer</label>
-                            <label className="min-w-30 text-black text-sm">{selectedRatesheet?.dealer}</label>
-                        </div>
-                    </div>
+                    <tbody>
+                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                            <td className="px-5 py-1">Dealer</td>
+                            <td className="px-5 py-1">:</td>
+                            <td className="px-5 py-1">{selectedRatesheet.dealer}</td>
+                        </tr>
+                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                            <td className="px-5 py-1">Agent</td>
+                            <td className="px-5 py-1">:</td>
+                            <td className="px-5 py-1">{selectedRatesheet.agent}</td>
+                        </tr>
+                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                            <td className="px-5 py-1">Claim Reserve</td>
+                            <td className="px-5 py-1">:</td>
+                            <td className="px-5 py-1">{selectedRatesheet.claimReserve}</td>
+                        </tr>
+                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                            <td className="px-5 py-1">GST</td>
+                            <td className="px-5 py-1">:</td>
+                            <td className="px-5 py-1">{selectedRatesheet.gst}</td>
+                        </tr>
+                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                            <td className="px-5 py-1">Processing Fee</td>
+                            <td className="px-5 py-1">:</td>
+                            <td className="px-5 py-1">{selectedRatesheet.processingFee}</td>
+                        </tr>
+                    </tbody>
                 </div>
             )}
         </div>
