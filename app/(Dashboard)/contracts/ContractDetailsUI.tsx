@@ -91,7 +91,7 @@ export default function ContractDetailsUI({ contract, changeModetoList, updateRa
     const changeRatesheet = () => {
         if (checkRatesheet()) {
             if (dealer !== contract.ratesheet.dealer.toString() || agent !== contract.ratesheet.agent.toString() || claimReserve !== contract.ratesheet.claimReserve.toString() || processingFee !== contract.ratesheet.processingFee.toString()) {
-                updateRatesheet(contract.ratesheet.id ,Number(dealer), Number(agent), Number(claimReserve), Number(processingFee))
+                updateRatesheet(contract.ratesheet.id, Number(dealer), Number(agent), Number(claimReserve), Number(processingFee))
                 toogleEditRatesheet()
             }
         }
@@ -211,6 +211,7 @@ export default function ContractDetailsUI({ contract, changeModetoList, updateRa
 
                 <div className="w-full rounded-2xl border border-[#E2E8F0] bg-white p-6 flex flex-col gap-10">
                     <label className="font-semibold text-xl">Policy Overview</label>
+
                     <div className="flex gap-10">
                         <div className="flex gap-5">
                             <div className="flex flex-col">
@@ -229,7 +230,7 @@ export default function ContractDetailsUI({ contract, changeModetoList, updateRa
                                 <label className="min-w-30 max-w-120">{contract.customers.name}</label>
                                 <label className="min-w-30 max-w-120">{contract.customers.phone}</label>
                                 <label className="min-w-30 max-w-120">{contract.customers.email}</label>
-                                <label className="min-w-30 max-w-120">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, quis.</label>
+                                <label className="min-w-30 max-w-120">{contract.customers.address}</label>
                             </div>
                         </div>
 

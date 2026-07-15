@@ -243,33 +243,37 @@ export default function RatesheetListUI({ contract, totalContracts, getContracts
 
                     <label className="text-black font-semibold">About Ratesheet</label>
 
-                    <tbody>
-                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
-                            <td className="px-5 py-1">Dealer</td>
-                            <td className="px-5 py-1">:</td>
-                            <td className="px-5 py-1">{selectedRatesheet.dealer}</td>
-                        </tr>
-                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
-                            <td className="px-5 py-1">Agent</td>
-                            <td className="px-5 py-1">:</td>
-                            <td className="px-5 py-1">{selectedRatesheet.agent}</td>
-                        </tr>
-                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
-                            <td className="px-5 py-1">Claim Reserve</td>
-                            <td className="px-5 py-1">:</td>
-                            <td className="px-5 py-1">{selectedRatesheet.claimReserve}</td>
-                        </tr>
-                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
-                            <td className="px-5 py-1">GST</td>
-                            <td className="px-5 py-1">:</td>
-                            <td className="px-5 py-1">{selectedRatesheet.gst}</td>
-                        </tr>
-                        <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
-                            <td className="px-5 py-1">Processing Fee</td>
-                            <td className="px-5 py-1">:</td>
-                            <td className="px-5 py-1">{selectedRatesheet.processingFee}</td>
-                        </tr>
-                    </tbody>
+                    <div className="flex w-100">
+                        <table className="w-full text-sm">
+                            <tbody>
+                                <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                                    <td className="px-5 py-1">Dealer</td>
+                                    <td className="px-5 py-1">:</td>
+                                    <td className="px-5 py-1">{selectedRatesheet.dealer}%</td>
+                                </tr>
+                                <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                                    <td className="px-5 py-1">Agent</td>
+                                    <td className="px-5 py-1">:</td>
+                                    <td className="px-5 py-1">{selectedRatesheet.agent}%</td>
+                                </tr>
+                                <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                                    <td className="px-5 py-1">Claim Reserve</td>
+                                    <td className="px-5 py-1">:</td>
+                                    <td className="px-5 py-1">{selectedRatesheet.claimReserve}%</td>
+                                </tr>
+                                <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                                    <td className="px-5 py-1">GST</td>
+                                    <td className="px-5 py-1">:</td>
+                                    <td className="px-5 py-1">{selectedRatesheet.gst}%</td>
+                                </tr>
+                                <tr className="border-b border-gray-50 font-medium text-[#0F172A] items-center">
+                                    <td className="px-5 py-1">Processing Fee</td>
+                                    <td className="px-5 py-1">:</td>
+                                    <td className="px-5 py-1">{selectedRatesheet.processingFee}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
         </div>

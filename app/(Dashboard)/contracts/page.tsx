@@ -75,6 +75,7 @@ export default function Contracts() {
     const [totalPremium, setTotalPremium] = useState<number>(0)
     const [contracts, setContracts] = useState<Contract[]>([])
     const [contract, setContract] = useState<Contract>(defaultData)
+    const [customers, setCustomers] = useState<Customer[]>([])
     const [activeContract, setActiveContract] = useState<string>('')
 
     const changeModetoList = () => {
@@ -93,6 +94,17 @@ export default function Contracts() {
         const res = await fetch('/api/contract/getAllContracts')
         const data = await res.json()
         setTotalContracts(data.count)
+    }
+
+    const getCustomers = async (text: string) => {
+        const res = await fetch('/api/customers/getAllCustomers', {
+            method: 'POST',
+            body: JSON.stringify({
+                text: text
+            })
+        })
+        const data = await res.json()
+        setCustomers(data)
     }
 
     const getAllPremium = async () => {
@@ -130,17 +142,21 @@ export default function Contracts() {
         setContract(data)
     }
 
-    const createContract = async (name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => {
+    const createContract = async (isNewCustomer: boolean, customerId:string, name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => {
 
-        if (!name || !email || !phone || !policType || !vehicleNumber || !vehicleModel || !startDate || !endDate || !paymentFrequency || !premiumAmmount) {
-            alert('what')
-            return;
+        if (isNewCustomer) {
+            if (!name || !email || !phone || !policType || !vehicleNumber || !vehicleModel || !startDate || !endDate || !paymentFrequency || !premiumAmmount) {
+                alert('what')
+                return;
+            }
+        } else {
+            if (!customerId || !policType || !vehicleNumber || !vehicleModel || !startDate || !endDate || !paymentFrequency || !premiumAmmount) {
+                alert('what')
+                return;
+            }
         }
 
-        // const customerId = await createCustomer(name, email, phone, address)
-
-        // const body = { customerId, policType, vehicleNumber, vehicleModel, startDate, endDate, paymentFrequency, premiumAmmount }
-        const body = { name, email, phone, address, policType, vehicleNumber, vehicleModel, startDate, endDate, paymentFrequency, premiumAmmount }
+        const body = { isNewCustomer, customerId, name, email, phone, address, policType, vehicleNumber, vehicleModel, startDate, endDate, paymentFrequency, premiumAmmount }
 
         const res = await fetch('/api/contract/createContract/', {
             method: 'POST',
@@ -149,6 +165,12 @@ export default function Contracts() {
             },
             body: JSON.stringify(body),
         })
+
+        const data = await res.json()
+
+        if(data.error){
+            console.log(`Contract Create Error: ${data.error}`)
+        }
 
         changeModetoList()
     }
@@ -189,7 +211,7 @@ export default function Contracts() {
     return (
         <div className="relative flex flex-col w-full h-full">
             {/* Create */}
-            {active === 'Create' && (<CreateContractUI back={changeModetoList} createContract={createContract} />)}
+            {active === 'Create' && (<CreateContractUI back={changeModetoList} createContract={createContract} customersList={customers} searchCustomer={getCustomers} />)}
 
             {/* Create */}
             {active === 'List' && (<ContractsListUI addAgent={changeModetoCreate} contract={contracts} getContracts={() => { getContracts }} totalContracts={totalContracts} totalPremium={totalPremium} changeModetoDetails={changeModetoDetails} />)}

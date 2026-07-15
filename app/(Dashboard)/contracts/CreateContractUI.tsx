@@ -2,13 +2,23 @@ import { IconCalendar, IconCalendarEvent, IconCar, IconCaretLeftFilled, IconCare
 import { differenceInMonths } from "date-fns";
 import { useEffect, useState } from "react";
 
-type Props = {
-    back: () => void
-    createContract: (name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => void
+interface Customer {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
 }
 
-export default function CreateContractUI({ back, createContract }: Props) {
+type Props = {
+    back: () => void
+    searchCustomer: (text: string) => void
+    customersList: Customer[]
+    createContract: (isNewCustomer: boolean, customerId: string, name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => void
+}
 
+export default function CreateContractUI({ back, createContract, customersList, searchCustomer }: Props) {
+    const [isNewCustomer, setIsNewCustomer] = useState(true)
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [phone, setPhone] = useState<number | null>(0)
@@ -23,6 +33,9 @@ export default function CreateContractUI({ back, createContract }: Props) {
     const tax = (premiumAmmount * 18) / 100;
     const total = tax + premiumAmmount;
     const contractPeriod = Number.isNaN((differenceInMonths(endDate, startDate))) ? '0' : `${differenceInMonths(endDate, startDate)}`;
+    const [customerInput, setCustomerInput] = useState<string>('')
+    const [selectedCustomer, setSelectedCustomer] = useState<Customer>()
+    const [customers, setCustomers] = useState<Customer[]>(customersList)
 
     useEffect(() => {
         if (plan === 'Basic') {
@@ -35,6 +48,10 @@ export default function CreateContractUI({ back, createContract }: Props) {
             setPremiumAmmount(14999)
         }
     }, [plan])
+
+    useEffect(() => {
+        setCustomers(customersList)
+    }, [customersList])
 
     return (
         <div className="w-full h-full bg-[#F8FAFC]">
@@ -56,7 +73,7 @@ export default function CreateContractUI({ back, createContract }: Props) {
                             <IconXFilled />
                             Cancel
                         </div>
-                        <div onClick={() => { createContract(name, email, phone!.toString(), address, plan, plate, model, new Date(startDate).toISOString(), new Date(endDate).toISOString(), payment, total) }} className="flex items-center justify-center gap-2 font-semibold rounded-lg border border-[#CBD5E1] bg-[#DBEAFE] hover:bg-[#3B82F6] hover:text-white cursor-pointer px-5 h-13 text-sm text-[#475569]">
+                        <div onClick={() => { createContract(isNewCustomer, selectedCustomer ? selectedCustomer.id : '', name, email, phone!.toString(), address, plan, plate, model, new Date(startDate).toISOString(), new Date(endDate).toISOString(), payment, total) }} className="flex items-center justify-center gap-2 font-semibold rounded-lg border border-[#CBD5E1] bg-[#DBEAFE] hover:bg-[#3B82F6] hover:text-white cursor-pointer px-5 h-13 text-sm text-[#475569]">
                             Save & Continue
                             <IconCaretRightFilled />
                         </div>
@@ -73,7 +90,12 @@ export default function CreateContractUI({ back, createContract }: Props) {
                                 <label className="bg-[#2563EB] text-white w-10 h-10 rounded-full flex items-center justify-center">1</label>
                                 <label>Customer Information</label>
                             </label>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+                            <div className="flex items-center justify-start gap-2">
+                                <div onClick={() => { setIsNewCustomer(true) }} className={` ${isNewCustomer ? 'border-[#2563EB] text-[#2563EB]' : 'border-[#94A3B8] text-[#94A3B8]'} border-b-2 font-semibold cursor-pointer text-lg w-70 h-10 items-center justify-center flex`}>New Customer</div>
+                                <div onClick={() => { setIsNewCustomer(false) }} className={` ${isNewCustomer ? 'border-[#94A3B8] text-[#94A3B8]' : 'border-[#2563EB] text-[#2563EB]'} border-b-2 font-semibold cursor-pointer text-lg w-70 h-10 items-center justify-center flex`}>Existing Customer</div>
+                            </div>
+                            {isNewCustomer && (<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 
                                 {/* Name */}
                                 <div>
@@ -118,7 +140,36 @@ export default function CreateContractUI({ back, createContract }: Props) {
                                         <input value={address} onChange={(e) => { setAddress(e.target.value) }} type="text" name="Address" id="address" placeholder="Enter address" className="w-full h-full focus:outline-none focus:ring-0" />
                                     </div>
                                 </div>
-                            </div>
+                            </div>)}
+
+                            {!isNewCustomer && (<div>
+                                <input type="text" onChange={(e) => {
+                                    const value = e.target.value;
+                                    setCustomerInput(value);
+                                    searchCustomer(value);
+                                }}
+                                    placeholder="Search customer by name or ID..." className="border w-100 focus:outline-0 p-2 rounded-md" />
+
+                                {customers?.length > 0 && (
+                                    <div className="absolute z-10 mt-2 max-h-72 w-auto overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+                                        {customers.map((customer) => (
+                                            <div key={customer.id} onClick={() => {
+                                                setSelectedCustomer(customer);
+                                                setCustomerInput(customer.name);
+                                                setCustomers([]);
+                                            }} className="cursor-pointer flex w-full flex-col border-b border-gray-100 px-4 py-3 text-left hover:bg-gray-50 last:border-none">
+                                                <span className="font-medium text-gray-900">{customer.name}</span>
+                                                <span className="text-sm text-gray-500">ID: {customer.id}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                <div className="flex w-full flex-col px-4 py-3 text-left ">
+                                    <span className="font-medium text-gray-900">{selectedCustomer?.name}</span>
+                                    <span className="text-sm text-gray-500">ID: {selectedCustomer?.id}</span>
+                                </div>
+                            </div>)}
 
                             <div className="w-full border-[#E5E7EB] border"></div>
 
@@ -286,14 +337,16 @@ export default function CreateContractUI({ back, createContract }: Props) {
                             </div>
                             <div className="flex">
                                 <div className="flex flex-col">
+                                    {!isNewCustomer && selectedCustomer && (<label className="pl-13 text-black text-sm">Id</label>)}
                                     <label className="pl-13 text-black text-sm">Name</label>
                                     <label className="pl-13 text-black text-sm">Email</label>
                                     <label className="pl-13 text-black text-sm">Phone</label>
                                 </div>
                                 <div className="flex flex-col">
-                                    <label className="pl-13 text-black text-sm">{!name ? 'Empty' : name}</label>
-                                    <label className="pl-13 text-black text-sm">{!email ? 'Empty' : email}</label>
-                                    <label className="pl-13 text-black text-sm">{!phone ? 'Empty' : phone}</label>
+                                    {!isNewCustomer && selectedCustomer && (<label className="pl-13 text-black text-sm">{selectedCustomer?.id}</label>)}
+                                    <label className="pl-13 text-black text-sm">{selectedCustomer && !isNewCustomer ? selectedCustomer.name : !name ? 'Empty' : name}</label>
+                                    <label className="pl-13 text-black text-sm">{selectedCustomer && !isNewCustomer ? selectedCustomer.email : !email ? 'Empty' : email}</label>
+                                    <label className="pl-13 text-black text-sm">{selectedCustomer && !isNewCustomer ? selectedCustomer.phone : !phone ? 'Empty' : phone}</label>
                                 </div>
                             </div>
                         </div>

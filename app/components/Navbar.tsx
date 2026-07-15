@@ -35,17 +35,21 @@ export default function NavbarUI({ showSearchBar, name, placeholderText, colapse
 
     useEffect(() => {
         const getUser = async () => {
-            const res = await fetch('/api/auth/getUser/', {
-                method: 'POST',
-                body: JSON.stringify({
-                    id: user.id
+            try {
+                const res = await fetch('/api/auth/getUser/', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        id: user.id
+                    })
                 })
-            })
 
-            const data = await res.json()
+                const data = await res.json()
 
-            setCurrentUser(data)
-            console.table(data)
+                setCurrentUser(data)
+                console.table(data)
+            } catch (error) {
+                console.log(`Navbar UI Error: ${error}`)
+            }
         }
 
         getUser()
