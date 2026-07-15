@@ -1,3 +1,5 @@
+'use client'
+
 import { IconCalendar, IconCalendarEvent, IconCar, IconCaretLeftFilled, IconCaretRightFilled, IconChevronDownFilled, IconChevronRightFilled, IconCoin, IconFileDescription, IconInfoCircle, IconMail, IconMapPin, IconPhone, IconShieldCheck, IconSquareArrowRightFilled, IconUser, IconXFilled } from "@tabler/icons-react";
 import { differenceInMonths } from "date-fns";
 import { useEffect, useState } from "react";
