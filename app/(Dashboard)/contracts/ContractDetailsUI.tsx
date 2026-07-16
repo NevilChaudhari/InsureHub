@@ -42,10 +42,6 @@ interface Contract {
 }
 export default function ContractDetailsUI({ contract, changeModetoList, updateRatesheet }: props) {
 
-    // useEffect(() => {
-    //     console.table(contract)
-    // }, [contract])
-
     const [editRatesheet, setEditRatesheet] = useState<boolean>(false)
     const [dealer, setDealer] = useState<string>(contract.ratesheet.dealer.toString())
     const [agent, setAgent] = useState<string>(contract.ratesheet.agent.toString())

@@ -54,6 +54,16 @@ export default function Customers() {
     const [totalCustomers, setTotalCustomers] = useState<number>(0)
     const [mode, setMode] = useState<Mode>('List')
 
+    const getAllContracts = async () => {
+        const res = await fetch('/api/customers/getTotalCustomers')
+        const data = await res.json()
+        setTotalCustomers(data.count)
+    }
+
+    useEffect(() => { 
+        getAllContracts()
+    },[customers])
+
     const selectCustomer = (customer: Customer) => {
         setSpecificCustomer(customer)
     }

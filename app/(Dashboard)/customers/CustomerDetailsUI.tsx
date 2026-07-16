@@ -4,6 +4,7 @@ import { IconFileDescription, IconXFilled, IconChevronRightFilled, IconCaretLeft
 import { differenceInDays, format } from "date-fns";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import ContractDetailsUI from "../contracts/ContractDetailsUI";
 
 interface props {
     customer: Customer
@@ -32,6 +33,7 @@ interface Contract {
 }
 export default function CustomerDetailsUI({ customer, contracts, changeMode }: props) {
     const [loading, setLoading] = useState(true)
+    const [selectedContract, setSelectedContract] = useState<Contract>()
 
     useEffect(() => {
         if (contracts) {
@@ -41,6 +43,7 @@ export default function CustomerDetailsUI({ customer, contracts, changeMode }: p
 
     return (
         <div className="w-full h-full bg-[#F8FAFC] flex flex-col gap-5">
+
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
                 <div className="flex items-center justify-center gap-5">
@@ -75,8 +78,8 @@ export default function CustomerDetailsUI({ customer, contracts, changeMode }: p
                     <p className="text-sm text-[#475569] mt-5">Id</p>
                     <p className="font-medium text-[#0F172A]">{customer.id}</p>
                 </div>
-
                 <div className="border border-[#E5E7EB]" />
+
 
                 {/* Customer */}
                 <div className="px-6 py-2">
