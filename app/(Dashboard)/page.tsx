@@ -1,6 +1,5 @@
 'use client'
 
-import { Users, Settings } from "lucide-react";
 import { useState } from "react";
 import AddOns from "./addons/page";
 import Agents from "./agents/page";
@@ -9,16 +8,16 @@ import Claims from "./claims/page";
 import Contracts from "./contracts/page";
 import Customers from "./customers/page";
 import AdminDashboard from "./dashboard/page";
-import Dealers from "./dealers/page";
-import InsuranceProducts from "./insuranceProducts/page";
 import RateSheets from "./rateSheets/page";
 import ReportsAnalitics from "./reportsAnalytics/page";
 import RolesPermissions from "./roles/page";
+import Users from "./users/page";
+import Settings from "./settings/page";
 import NavbarUI from "../components/Navbar";
 import { IconLayoutSidebarLeftCollapseFilled, IconLayoutSidebarLeftExpandFilled } from "@tabler/icons-react";
 
 
-type pageId = "dashboard" | "agents" | "dealers" | "customers" | "insuranceproducts" | "addons" | "ratesheets" | "contracts" | "claims" | "reports" | "users" | "roles" | "settings" | "auditlogs";
+type pageId = "dashboard" | "agents" | "customers" | "addons" | "ratesheets" | "contracts" | "claims" | "reports" | "users" | "roles" | "settings" | "auditlogs";
 
 export default function MainLayout() {
     const [currentPage, setCurrentPage] = useState<pageId>("dashboard");
@@ -34,12 +33,8 @@ export default function MainLayout() {
                 return <AdminDashboard />;
             case "agents":
                 return <Agents />;
-            case "dealers":
-                return <Dealers />;
             case "customers":
                 return <Customers />;
-            case "insuranceproducts":
-                return <InsuranceProducts />;
             case "addons":
                 return <AddOns />
             case "ratesheets":
@@ -91,10 +86,6 @@ export default function MainLayout() {
                     <div onClick={() => { changeCurrentPage("customers"); }} className={`${currentPage === 'customers' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
                         <span>C</span>
                         {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Customers</span>)}
-                    </div>
-                    <div onClick={() => { changeCurrentPage("insuranceproducts"); }} className={`${currentPage === 'insuranceproducts' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
-                        <span>I</span>
-                        {!collapse && (<span className="flex-1 min-w-0 text-left truncate">Insurance Products</span>)}
                     </div>
                     <div onClick={() => { changeCurrentPage("addons"); }} className={`${currentPage === 'addons' ? 'bg-[#2563EB] hover:bg-[#3B82F6]' : 'hover:bg-slate-700/50'} flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white`} >
                         <span>A</span>
