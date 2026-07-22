@@ -142,7 +142,7 @@ export default function Contracts() {
         setContract(data)
     }
 
-    const createContract = async (isNewCustomer: boolean, customerId:string, name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => {
+    const createContract = async (isNewCustomer: boolean, customerId: string, name: string, email: string, phone: string, address: string, policType: string, vehicleNumber: string, vehicleModel: string, startDate: string, endDate: string, paymentFrequency: string, premiumAmmount: number) => {
 
         if (isNewCustomer) {
             if (!name || !email || !phone || !policType || !vehicleNumber || !vehicleModel || !startDate || !endDate || !paymentFrequency || !premiumAmmount) {
@@ -168,7 +168,7 @@ export default function Contracts() {
 
         const data = await res.json()
 
-        if(data.error){
+        if (data.error) {
             console.log(`Contract Create Error: ${data.error}`)
         }
 
@@ -194,6 +194,24 @@ export default function Contracts() {
         console.table(data)
     }
 
+    const createClaim = async (contractId: string, claimAmount: number) => {
+        const res = await fetch('api/claims/createClaim', {
+            method: 'POST',
+            body: JSON.stringify({
+                contractId: contractId,
+                claimAmount: claimAmount
+            })
+        })
+
+        const data = await res.json()
+
+        if(data.error){
+            console.log(`create contract error: ${data.error}`);
+            return;
+        }
+        changeModetoList();
+    }
+
     useEffect(() => {
         getAllContracts()
         getContracts(0, 10);
@@ -217,7 +235,7 @@ export default function Contracts() {
             {active === 'List' && (<ContractsListUI addAgent={changeModetoCreate} contract={contracts} getContracts={() => { getContracts }} totalContracts={totalContracts} totalPremium={totalPremium} changeModetoDetails={changeModetoDetails} />)}
 
             {/* Details */}
-            {active === 'Details' && contract && (<ContractDetailsUI changeModetoList={changeModetoList} contract={contract} updateRatesheet={updateRatesheet} />)}
+            {active === 'Details' && contract && (<ContractDetailsUI changeModetoList={changeModetoList} contract={contract} updateRatesheet={updateRatesheet} createClaim={createClaim}/>)}
         </div>
     )
 }

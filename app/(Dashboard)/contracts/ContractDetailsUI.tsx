@@ -1,6 +1,6 @@
 'use client'
 
-import { IconFileDescription, IconXFilled, IconChevronRightFilled, IconCaretLeftFilled, IconCopy, IconUser, IconCar, IconCalendarEvent, IconClock, IconCoin, IconPlusFilled, IconPencil, IconCheckFilled } from "@tabler/icons-react";
+import { IconFileDescription, IconXFilled, IconChevronRightFilled, IconCaretLeftFilled, IconCopy, IconUser, IconCar, IconCalendarEvent, IconClock, IconCoin, IconPlusFilled, IconPencil, IconCheckFilled, IconCaretRightFilled } from "@tabler/icons-react";
 import { differenceInDays, format } from "date-fns";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,7 @@ interface props {
     contract: Contract
     changeModetoList: () => void
     updateRatesheet: (id: string, dealer: number, agent: number, claimReserve: number, processingFee: number) => void
+    createClaim: (contractId: string, claimAmount: number) => void
 }
 
 interface Customer {
@@ -40,7 +41,7 @@ interface Contract {
     customers: Customer;
     ratesheet: Ratesheet;
 }
-export default function ContractDetailsUI({ contract, changeModetoList, updateRatesheet }: props) {
+export default function ContractDetailsUI({ contract, changeModetoList, updateRatesheet, createClaim }: props) {
 
     const [editRatesheet, setEditRatesheet] = useState<boolean>(false)
     const [dealer, setDealer] = useState<string>(contract.ratesheet.dealer.toString())
@@ -111,6 +112,10 @@ export default function ContractDetailsUI({ contract, changeModetoList, updateRa
                     <div onClick={changeModetoList} className="flex items-center justify-center gap-2 font-semibold rounded-lg border border-[#CBD5E1] hover:bg-[#3B82F6] hover:text-white cursor-pointer px-5 h-13 text-sm text-[#475569]">
                         <IconCaretLeftFilled />
                         Back
+                    </div>
+                    <div onClick={() => createClaim(contract.id, 1000)} className="flex items-center justify-center gap-2 font-semibold rounded-lg border border-[#CBD5E1] hover:bg-[#22C55E] hover:text-white cursor-pointer px-5 h-13 text-sm text-[#475569]">
+                        Apply Claim
+                        <IconCaretRightFilled />
                     </div>
                 </div>
             </div>
